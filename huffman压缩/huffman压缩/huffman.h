@@ -1,6 +1,5 @@
 #pragma once
 
-#include<string>
 #include<vector>
 #include<queue>
 using namespace std;
@@ -9,17 +8,18 @@ template <class N>
 class TreeNode
 {
 public:
-	TreeNode(const N& val)
+	TreeNode(const N& val=N())
 		:_left(nullptr)
 		,_right(nullptr)
+		,_parent(nullptr)
 		, _val(val)
 	{
 		;
 	}
 
-	TreeNode* _left;//需要让别的也可访问，所以是public
-	TreeNode* _right;
-	TreeNode* _parent;
+	TreeNode<N>* _left;//需要让别的也可访问，所以是public
+	TreeNode<N>* _right;
+	TreeNode<N>* _parent;
 	N _val;//根据传参类型来创建对象
 };
 
@@ -36,7 +36,7 @@ public:
 	public:
 		bool operator()(const TreeNode* left, const TreeNode* right)
 		{
-			return left->_val > right->_val;
+			return (left->_val > right->_val);
 		}
 	};
 	
@@ -46,12 +46,18 @@ public:
 		;
 	}
 
-	HuffmanTree(const vector<T> &val)
+	TreeNode* getroot()
+	{
+		return _root;
+	}
+
+	HuffmanTree(const vector<T> &val,const T& invalid)
 	{
 		priority_queue< TreeNode* , vector<TreeNode*>, cmp> q;
 		for (auto&v : val)
 		{
-			q.push(new TreeNode(v));
+			if(v!=invalid)
+				q.push(new TreeNode(v));
 		}
 
 		while (q.size()>1)//需要取出两个数，所以至少有两个数
@@ -63,9 +69,14 @@ public:
 
 			TreeNode* parent = new TreeNode(left->_val + right->_val);
 			parent->_left = left;
+			left->_parent = parent;
+
+
 			parent->_right = right;
+			right->_parent = parent;
 			q.push(parent);//用这一棵树的父节点存入优先级队列进行比较，从而合成更大的树
 		}
+
 
 		_root = q.top();//跳出循环时，队首就是整棵树的根节点
 

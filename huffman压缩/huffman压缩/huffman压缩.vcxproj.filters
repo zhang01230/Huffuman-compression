@@ -18,6 +18,12 @@
     <ClCompile Include="test.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="file.h">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="compression.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="huffman.h">

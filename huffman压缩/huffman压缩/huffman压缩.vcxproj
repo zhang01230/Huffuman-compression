@@ -139,6 +139,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="compression.cpp" />
+    <ClCompile Include="file.h" />
     <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
