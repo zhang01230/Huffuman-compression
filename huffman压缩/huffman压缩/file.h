@@ -9,7 +9,7 @@ using namespace std;
 class Info
 {
 public:
-	char _ch;//字符
+	unsigned char _ch;//字符
 	string _s;//编码
 	size_t _count;//出现次数
 	
@@ -52,8 +52,10 @@ public:
 	FileInfo();
 	void compression(const string& s);
 	void uncompression(const string& s);
-	vector<Info> _Info;//32位下只有256种状态
+	vector<Info> record_Info;//32位下只有256种状态
 
-
+	void writeheadinfo(const string& s, FILE*Fout);
+	string getfilepostfix(const string s);
+	void Get_line_info(FILE* Fin, string& s);
 	void gethuffmancode(TreeNode<Info>* root);
 };

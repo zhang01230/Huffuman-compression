@@ -142,6 +142,7 @@
     <ClCompile Include="compression.cpp" />
     <ClCompile Include="file.h" />
     <ClCompile Include="test.cpp" />
+    <ClCompile Include="uncompression.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="huffman.h" />
