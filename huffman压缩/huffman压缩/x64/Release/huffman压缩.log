@@ -1,0 +1,8 @@
+﻿  compression.cpp
+  menu.cpp
+  正在生成代码
+  2 of 323 functions ( 0.6%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  已完成代码的生成
+  huffman压缩.vcxproj -> D:\code\huffman-compression\huffman压缩\x64\Release\huffman压缩.exe

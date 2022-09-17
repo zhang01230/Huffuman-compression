@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="compression.cpp" />
     <ClCompile Include="file.h" />
+    <ClCompile Include="menu.cpp" />
     <ClCompile Include="test.cpp" />
     <ClCompile Include="uncompression.cpp" />
   </ItemGroup>

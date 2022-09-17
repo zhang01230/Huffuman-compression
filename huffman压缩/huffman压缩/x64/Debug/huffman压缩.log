@@ -1,4 +1,8 @@
 ﻿  compression.cpp
+  file.h
+  menu.cpp
   test.cpp
+  uncompression.cpp
+D:\code\huffman-compression\huffman压缩\huffman压缩\uncompression.cpp(55,41): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
   正在生成代码...
   huffman压缩.vcxproj -> D:\code\huffman-compression\huffman压缩\x64\Debug\huffman压缩.exe

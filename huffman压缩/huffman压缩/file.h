@@ -59,3 +59,5 @@ public:
 	void Get_line_info(FILE* Fin, string& s);
 	void gethuffmancode(TreeNode<Info>* root);
 };
+
+void menu();
