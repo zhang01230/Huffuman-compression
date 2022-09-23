@@ -60,4 +60,6 @@ public:
 	void gethuffmancode(TreeNode<Info>* root);
 };
 
+
+
 void menu();

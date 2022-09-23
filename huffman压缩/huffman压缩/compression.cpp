@@ -32,7 +32,7 @@ void FileInfo::compression(const string& s)
 			break;
 		}
 
-		for (int i = 0; i < sz; i++)
+		for (size_t i = 0; i < sz; i++)
 		{
 			flag = 1;
 			record_Info[buffer[i]]._count++;//统计每个字符出现次数
@@ -46,8 +46,7 @@ void FileInfo::compression(const string& s)
 	fseek(Fin, 0, SEEK_SET);
 
 
-	//创建一个匿名函数，构造函数会使count为0，此时就是无效值
-	Info invalid;
+	Info invalid;//无效值
 	HuffmanTree<Info> tree(record_Info,invalid);//构建树
 
 	gethuffmancode(tree.getroot());
@@ -62,21 +61,21 @@ void FileInfo::compression(const string& s)
 
 	writeheadinfo(s, Fout);
 
-	char bits = 0;//储存二进制数据，因为最后以字符串形式写入，所以用char类型	
-	int count = 0;//记录已储存的bit位
+	unsigned char bits = 0;//储存二进制数据，因为最后按字节写入，所以用char类型	
+	size_t count = 0;//记录已储存的bit位
 	while (1)
 	{
 		size_t size = fread(buffer, 1, 1024, Fin); 
 		if (size == 0)
-			return;
+			break;
 		for (int i = 0; i < size; i++)
 		{
-			string& _s = record_Info[buffer[i]]._s;
+			string& _s = record_Info[buffer[i]]._s;//该字符获取编码
 			for (int j = 0; j < _s.size(); j++)
 			{
 				count++;
 				bits <<= 1;
-				if (_s[j] == '1')
+				if (_s[j] == '1')//如果编码的这一位为1
 					bits |= 1;//让这一位变为1
 				if (count == 8)
 				{
@@ -86,15 +85,14 @@ void FileInfo::compression(const string& s)
 				}
 			}
 		}
-		if (count > 0 && count < 8)//最后一位没满8bit时
-		{
-			bits <<= (8 - count);
-			fputc(bits, Fout);
-		}
-		fclose(Fin);
-		fclose(Fout);
 	}
-	
+	if (count > 0 && count < 8)//最后一位没满8bit时
+	{
+		bits <<= (8 - count);
+		fputc(bits, Fout);
+	}
+	fclose(Fin);
+	fclose(Fout);
 }
 
 
@@ -129,7 +127,7 @@ void FileInfo::writeheadinfo(const string& s, FILE* Fout)
 	string head = getfilepostfix(s);//文件类型
 	head += "\n";
 
-	int line_count = 0;
+	size_t line_count = 0;
 	string frequence;
 	for (auto&fre : record_Info)
 	{
@@ -144,9 +142,10 @@ void FileInfo::writeheadinfo(const string& s, FILE* Fout)
 	}
 	head += to_string(line_count);
 	head += '\n';
-	head += frequence;
+	//head += frequence;//效率低	
 
 	fwrite(head.c_str(), 1, head.size(), Fout);
+	fwrite(frequence.c_str(), 1, frequence.size(), Fout);
 }
 
 

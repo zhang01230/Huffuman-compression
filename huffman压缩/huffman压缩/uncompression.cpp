@@ -20,25 +20,30 @@ void FileInfo::uncompression(const string& s)
 	cin >> uncpr_name;
 	cout << endl;
 	uncpr_name += '.';
-	Get_line_info(Fin, uncpr_name);	
+	Get_line_info(Fin, uncpr_name);	//获取文件后缀
 
-	string line_info;
+	string line_info="";
 	Get_line_info(Fin, line_info);
 	size_t line_count = atoi(line_info.c_str());
+	if (line_count == 0)
+	{
+		cout << "文件为空" << endl;
+		return;
+	}
 
 	for (int i = 0; i < line_count; i++)
 	{
 		line_info = "";
 		Get_line_info(Fin, line_info);
 
-		if (line_info == "")
+		if (line_info == "")//获取\n的频次
 		{
 			line_info += '\n';//遇到\n会跳出，所以不会保存\n，所以需要在此保存一下
 			Get_line_info(Fin, line_info);
 		}
 		unsigned char pos = line_info[0];
-		record_Info[pos]._ch = line_info[0];
-		record_Info[pos]._count = atoi(line_info.c_str()+2);//字符：频次  所以需要加2
+		record_Info[pos]._ch = pos;
+		record_Info[pos]._count = atoi(line_info.c_str()+2);//字符-频次  所以需要加2
 
 	}
 
@@ -52,24 +57,24 @@ void FileInfo::uncompression(const string& s)
 	size_t filesize = 0;
 	while (1)
 	{
-		int size = fread(buffer, 1, 1024, Fin);
+		size_t size = fread(buffer, 1, 1024, Fin);
 		if (size == 0)
 			break;
-		for (int i = 0; i < size; i++)
+		for (size_t i = 0; i < size; i++)
 		{
 			unsigned char ch = buffer[i];
 			for (int j = 0; j < 8; j++)
 			{
 				if (ch & 0x80)//检测最高位,即从左到右检查
-					cur = cur->_right;//大往右，小往左
+					cur = cur->_right;//大（1）往右，小（0）往左
 				else
 					cur = cur->_left;
 				ch <<= 1;
 				if (cur->_left == nullptr && cur->_right == nullptr)
 				{
-					filesize += 1;//统计出现了多少字节
 					fputc(cur->_val._ch, Fout);
 					cur = hf.getroot();
+					filesize += 1;//统计出现了多少字节
 					if (filesize == cur->_val._count)
 					{
 						break;//根节点的count就是文件的大小，
